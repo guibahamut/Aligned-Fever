@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
+    public string playerName = "";
     public float speed = 2.5f;
-    public float rotationSpeed = 180f;
+    public float rotationSpeed = 160f;
 
     public string inputAxis = "Horizontal";
 
@@ -23,14 +24,15 @@ public class Snake : MonoBehaviour
         transform.Rotate(Vector3.forward * -horizontal * rotationSpeed * Time.fixedDeltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D hit)
     {
-        if (col.tag == "EnemyTail")
+        if (hit.tag == "KillsPlayer" && hit.transform.parent != transform.parent)
         {
             speed = 0f;
             rotationSpeed = 0f;
 
-            GameObject.FindObjectOfType<GameManager>().EndGame();
+            GameObject.FindObjectOfType<GameManager>().EndGame(playerName);
         }
+
     }
 }
